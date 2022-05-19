@@ -34,10 +34,18 @@ const Navbar = () => {
                 </NavLink>
               </li>
             </ul>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0 justify-content-end w-100">
+              <li className="nav-item">
+                <NavLink className="nav-link m-2" to="/signup" >Sign up</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link m-2" to="/login" >Login</NavLink>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
-      <Alert message = 'hello' />
+      <Alert message='hello' />
       <Outlet />
     </>
   );

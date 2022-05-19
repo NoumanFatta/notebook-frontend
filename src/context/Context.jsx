@@ -1,16 +1,42 @@
 import React, { useState } from "react";
-import NoteContext from "./noteContext";
+import Context from "./createContext";
 
-const NoteState = (props) => {
-  const host = "https://backend-notebook.herokuapp.com/";
+const ContextProvider = (props) => {
+  const host = "http://localhost:5000";
   const initialNotes = [];
   const [notes, setNotes] = useState(initialNotes);
   const [loading, setLoading] = useState(false);
 
+
+  const signup = async (credentials) => {
+    const response = await fetch(`${host}/user/signup`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+    });
+    const result = await response.json();
+    return result;
+  }
+  const login = async (credentials) => {
+    const response = await fetch(`${host}/user/login`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+    });
+    const result = await response.json();
+    return result;
+  }
+
   // API call to Fetch All Notes From Database
   const getNotes = async () => {
     setLoading(true);
-    const response = await fetch(`${host}notes/getnotes`, {
+    const response = await fetch(`${host}/notes/getnotes`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +50,7 @@ const NoteState = (props) => {
   };
 
   const addNote = async (title, description, tag) => {
-    const response = await fetch(`${host}notes/addnote`, {
+    const response = await fetch(`${host}/notes/addnote`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -46,9 +72,10 @@ const NoteState = (props) => {
       );
     }
   };
+
   const editNote = async (id, updatedNote) => {
     const { title, tag, description } = updatedNote;
-    const response = await fetch(`${host}notes/updatenote/${id}`, {
+    const response = await fetch(`${host}/notes/updatenote/${id}`, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -70,8 +97,9 @@ const NoteState = (props) => {
       setNotes(updatedNote);
     }
   };
+
   const deleteNote = async (id) => {
-    const response = await fetch(`${host}notes/deletenote/${id}`, {
+    const response = await fetch(`${host}/notes/deletenote/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -86,8 +114,8 @@ const NoteState = (props) => {
   };
 
   return (
-    <NoteContext.Provider
-      // {...props}
+    <Context.Provider
+      {...props}
       value={{
         notes,
         setNotes,
@@ -96,10 +124,11 @@ const NoteState = (props) => {
         getNotes,
         editNote,
         loading,
-      }}
-    >
-      {props.children}
-    </NoteContext.Provider>
+        login,
+        signup
+      }
+      }
+    />
   );
 };
-export default NoteState;
+export default ContextProvider;

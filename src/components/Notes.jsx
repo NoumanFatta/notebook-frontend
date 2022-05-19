@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import noteContext from "../context/noteContext";
+import createContext from "../context/createContext";
 import NoteItems from "./NoteItems";
 
 const Notes = () => {
-  const { notes, getNotes, editNote, loading } = useContext(noteContext);
+  const { notes, getNotes, editNote, loading } = useContext(createContext);
   useEffect(() => {
     getNotes();
     //eslint-disable-next-line
@@ -16,17 +16,14 @@ const Notes = () => {
   const submitNote = (e) => {
     e.preventDefault();
 
-    if (note.title && note.description && note.tag) {
-      const updatedNote = {
-        title: note.title,
-        tag: note.tag,
-        description: note.description,
-      };
-      editNote(note._id, updatedNote);
-      refClose.current.click();
-    } else {
-      alert("fill all fields");
-    }
+    // const updatedNote = {
+    //   title: note.title,
+    //   tag: note.tag,
+    //   description: note.description,
+    // };
+    editNote(note._id, note);
+    refClose.current.click();
+
   };
 
   const updateNote = (currentNote) => {
@@ -63,6 +60,7 @@ const Notes = () => {
                     Title
                   </label>
                   <input
+                    required
                     type="text"
                     name="title"
                     value={note.title}
@@ -76,6 +74,7 @@ const Notes = () => {
                     Description
                   </label>
                   <input
+                    required
                     type="text"
                     value={note.description}
                     className="form-control"
@@ -89,6 +88,7 @@ const Notes = () => {
                     Tag
                   </label>
                   <input
+                    required
                     type="text"
                     value={note.tag}
                     className="form-control"
@@ -110,9 +110,6 @@ const Notes = () => {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
-              </button>
             </div>
           </div>
         </div>
@@ -123,7 +120,7 @@ const Notes = () => {
           <h1>Loading..</h1>
         ) : (
           <>
-            <h3 style = {{color:'red'}} >{notes.length === 0 && "No Notes To Display!"}</h3>
+            <h3 style={{ color: 'red' }} >{notes.length === 0 && "No Notes To Display!"}</h3>
             {notes.map((note) => {
               return (
                 <NoteItems key={note._id} updateNote={updateNote} note={note} />
