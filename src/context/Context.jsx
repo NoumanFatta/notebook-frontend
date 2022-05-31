@@ -6,8 +6,15 @@ const ContextProvider = (props) => {
   const initialNotes = [];
   const [notes, setNotes] = useState(initialNotes);
   const [loading, setLoading] = useState(false);
-
-
+  const [alert, setAlert] = useState(null);
+  const showAlert = (msg, type) => {
+    setAlert({
+      msg, type
+    })
+    setTimeout(() => {
+      setAlert(null)
+    }, 2000);
+  }
   const signup = async (credentials) => {
     const response = await fetch(`${host}/user/signup`, {
       method: "POST",
@@ -41,7 +48,7 @@ const ContextProvider = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDZiMTNlZjlkNmVkMDdiMjQ2YTU4NSIsImlhdCI6MTY0ODgwMDA4Mn0.CRAVxg4DBJHZ1Y1XaRE3DqXy2a0sMfa2zbpVkWUz6NA",
+          localStorage.getItem('token'),
       },
     });
     const result = await response.json();
@@ -56,7 +63,7 @@ const ContextProvider = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDZiMTNlZjlkNmVkMDdiMjQ2YTU4NSIsImlhdCI6MTY0ODgwMDA4Mn0.CRAVxg4DBJHZ1Y1XaRE3DqXy2a0sMfa2zbpVkWUz6NA",
+          localStorage.getItem('token'),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -81,7 +88,7 @@ const ContextProvider = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDZiMTNlZjlkNmVkMDdiMjQ2YTU4NSIsImlhdCI6MTY0ODgwMDA4Mn0.CRAVxg4DBJHZ1Y1XaRE3DqXy2a0sMfa2zbpVkWUz6NA",
+          localStorage.getItem('token'),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -104,7 +111,7 @@ const ContextProvider = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDZiMTNlZjlkNmVkMDdiMjQ2YTU4NSIsImlhdCI6MTY0ODgwMDA4Mn0.CRAVxg4DBJHZ1Y1XaRE3DqXy2a0sMfa2zbpVkWUz6NA",
+          localStorage.getItem('token'),
       },
     });
     const result = await response.json();
@@ -125,7 +132,9 @@ const ContextProvider = (props) => {
         editNote,
         loading,
         login,
-        signup
+        signup,
+        showAlert,
+        alert
       }
       }
     />

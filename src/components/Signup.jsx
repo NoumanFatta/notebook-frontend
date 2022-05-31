@@ -19,6 +19,8 @@ const Signup = () => {
     if (response.success) {
       localStorage.setItem("token", response.token)
       navigate('/')
+    }else{
+      alert('something is wrong')
     }
   }
   return (

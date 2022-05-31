@@ -9,14 +9,14 @@ import Login from "./components/Login";
 function App() {
   return (
     <Context>
-      <Routes>
-        <Route path="/" element={<Navbar />}>
-          <Route index element={<Home />} />
+      <Navbar>
+        <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </Navbar>
     </Context>
   );
 }

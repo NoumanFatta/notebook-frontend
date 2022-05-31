@@ -4,7 +4,7 @@ import createContext from "../context/createContext";
 
 
 const Login = () => {
-  const { login } = useContext(createContext);
+  const { login, showAlert } = useContext(createContext);
   const navigate = useNavigate()
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const handleCredentials = (e) => {
@@ -17,7 +17,7 @@ const Login = () => {
       localStorage.setItem('token', result.token);
       navigate('/')
     } else {
-      alert('Wrong credentials')
+      showAlert("wrong credentials", "danger")
     }
   }
   return (
