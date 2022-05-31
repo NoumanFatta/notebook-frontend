@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Context from "./createContext";
 
 const ContextProvider = (props) => {
-  const host = "http://localhost:5000";
+  // const host = "http://localhost:5000";
+  const host = "https://backend-notebook.herokuapp.com";
   const initialNotes = [];
   const [notes, setNotes] = useState(initialNotes);
   const [loading, setLoading] = useState(false);
